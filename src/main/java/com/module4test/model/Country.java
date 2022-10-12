@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "countries")
+//@Table(name = "countries")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(targetEntity = City.class,fetch = FetchType.EAGER)
-    private List<City>cities;
+//    @OneToMany(targetEntity = City.class,fetch = FetchType.EAGER)
+//    private List<City>cities;
 
     public Country() {
     }
@@ -19,7 +19,7 @@ public class Country {
     public Country(Long id, String name, List<City> cities) {
         this.id = id;
         this.name = name;
-        this.cities = cities;
+//        this.cities = cities;
     }
 
     public Long getId() {
@@ -38,11 +38,11 @@ public class Country {
         this.name = name;
     }
 
-    public List<City> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<City> cities) {
-        this.cities = cities;
-    }
+//    public List<City> getCities() {
+//        return cities;
+//    }
+//
+//    public void setCities(List<City> cities) {
+//        this.cities = cities;
+//    }
 }

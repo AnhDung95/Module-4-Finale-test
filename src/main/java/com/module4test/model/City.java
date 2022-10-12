@@ -13,8 +13,7 @@ public class City {
     private int population;
     private int GDP;
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "country_id")
+    @OneToOne
     private Country country;
 
     public City() {

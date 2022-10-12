@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/country")
+@CrossOrigin("*")
 public class CountryController {
     @Autowired
     ICountryService countryService;
-
-
 
     @GetMapping
     public ResponseEntity<Iterable<Country>> findAllCountry() {

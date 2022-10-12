@@ -24,7 +24,7 @@
   function getCity(city) {
     return `<tr>
             <td >${city.name}</td>
-            <td >${city.country}</td>
+            <td >${city.country.name}</td>
             <td >${city.area}</td>
             <td >${city.population}</td>
             <td >${city.gdp}</td>
@@ -69,37 +69,59 @@
 
   function addNewCity(){
     let name = $('#name').val();
+    let id = $('#id').val();
     let country = $('#country').val();
     let area = $('#area').val();
     let population = $('#population').val();
     let gdp = $('#gdp').val();
     let description = $('#description').val();
-    let newCity = {
-      name: name,
-      country: {
-        name:name,
-      },
-      area: area,
-      population: population,
-      gdp: gdp,
-      description: description,
+
+    let newCountry={
+      name:country
     }
+
+    console.log(country)
     $.ajax({
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       type: "POST",
-      data: JSON.stringify(newCity),
+      data: JSON.stringify(newCountry),
       //tên API
-      url: "http://localhost:8080/cities",
+      url: "http://localhost:8080/country",
       //xử lý khi thành công
-      success: function () {
-        successHandler();
+      success: function (data) {
+
+        console.log(data)
+
+        let newCity = {
+          name: name,
+          country: data,
+          area: area,
+          population: population,
+          gdp: gdp,
+          description: description,
+        }
+        $.ajax({
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          type: "POST",
+          data: JSON.stringify(newCity),
+          //tên API
+          url: "http://localhost:8080/cities"+id,
+
+          success: function (){
+            successHandler()
+          }
+        })
       }
     });
     event.preventDefault();
   }
+
 
 
   function deleteCity(element){
@@ -141,59 +163,39 @@
   }
 
   function updateCity() {
-
+    let id = $('#id').val();
+    let name= $('#name').val();
+    let country= $('#country').val();
+    let area= $('#area').val();
+    let population= $('#population').val();
+    let gdp= $('#gdp').val();
+    let description= $('#description').val();
+    let city={
+      name:name,
+      country:country,
+      area:area,
+      population:population,
+      gdp:gdp,
+      description:description
+    }
     $.ajax({
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       type: "PUT",
-      url: "http://localhost:8080/cities/" + id,
-      data: JSON.stringify(accounts),
-      success: function (data){
-        console.log("tao account thanh cong")
-        console.log(data.id)
-        let id = $('#id').val();
-        let firstName = $('#firstName').val();
-        let lastName = $('#lastName').val();
-        let birthDate = $('#birthDate').val();
-        let email = $('#email').val();
-        let phone = $('#phone').val();
-        let active = $('#active').val();
-        let teachers = {
-          firstName: firstName,
-          lastName: lastName,
-          birthDate: birthDate,
-          email: email,
-          phone: phone,
-          account: {
-            id : data.id
-          },
-          active: active,
-        };
-        $.ajax({
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          type: "PUT",
-          url: "http://localhost:8080/cities/" + id,
-          data: JSON.stringify(teachers),
-          success: function (data){
-            successHandler()
-            alert("Sửa thành công")
-            console.log(data)
-          }
-        })
-        event.preventDefault();
+      url: `/cities/${id}`,
+      data:JSON.stringify(city),
+      success: function (data) {
+        console.log(id);
+        successHandler();
       }
     })
+
     event.preventDefault();
   }
 
-
 </script>
-
 
 
 <header id="header"></header>
